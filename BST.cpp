@@ -1,35 +1,46 @@
 #include "binaryTree.h"
 #include<queue>
-
-binaryTreeNode<int>* buildBST()
+binaryTreeNode<int>* takingInputLevelWise()
 {
-    int rootdata=0;
+    int rootData;
     cout<<"Enter root data : ";
-    cin>>rootdata;
-    binaryTreeNode<int>* root = new binaryTreeNode<int>(rootdata);
-    queue<binaryTreeNode<int>*> pendindNodes;
-    pendindNodes.push(root);
-    while (pendindNodes.size() != 0)
-    {   
-        binaryTreeNode<int>* front = pendindNodes.front();
-        pendindNodes.pop();
-        int childData;
-        cout<<"Enter child data : ";
-        cin>>childData;
-        if (childData>root->data && childData!=-1)
-        {
-            binaryTreeNode<int>* rightChild = new binaryTreeNode<int>(childData);
-            root->right=rightChild;
-            pendindNodes.push(rightChild);
-        }
-        else if(childData!=-1)
-        {
-            binaryTreeNode<int>* leftChild = new binaryTreeNode<int>(childData);
-            root->left=leftChild;
-            pendindNodes.push(leftChild);
-        }
+    cin>>rootData;
+    if (rootData == -1)
+    {
+        return NULL;
     }
-    return root;
+    
+    binaryTreeNode<int>* root = new binaryTreeNode<int>(rootData);
+    queue<binaryTreeNode<int>* > pendingNodes;
+    pendingNodes.push(root);
+
+    while (pendingNodes.size() != 0)
+    {
+        binaryTreeNode<int>* front = pendingNodes.front();
+        pendingNodes.pop();
+        int leftdata,rightdata;
+        cout<<"Enter Left child of "<<front->data<<": ";
+        cin>>leftdata;
+
+        if (leftdata != -1)
+        {
+            binaryTreeNode<int>* leftChild= new binaryTreeNode<int>(leftdata);
+            front->left=leftChild;
+            pendingNodes.push(leftChild);
+        }
+
+        cout<<"Enter Right child of "<<front->data<<": ";
+        cin>>rightdata;
+
+        if (rightdata != -1)
+        {
+            binaryTreeNode<int>* rightChild = new binaryTreeNode<int>(rightdata);
+            front->right=rightChild;
+            pendingNodes.push(rightChild);
+        }    
+    }
+return root;
+
 }
 void printTree(binaryTreeNode<int>* root)
 {
@@ -67,6 +78,41 @@ int searchinBST(binaryTreeNode<int>* root,int data)
     }
 
 }
+
+int heightofBST(binaryTreeNode<int>* root)
+{
+    if (root==NULL)
+    {
+        return 0;
+    }
+    return 1+max(heightofBST(root->left),heightofBST(root->right));
+}
+
+int diameterofBST(binaryTreeNode<int>* root)
+{
+    if(root==NULL)
+    return 0;
+
+    int option1=heightofBST(root->left)+heightofBST(root->right);
+    int option2=diameterofBST(root->left);
+    int option3=diameterofBST(root->right);
+
+    return max(option1,option2,option3);
+
+}
+
+
+bool isBST(binaryTreeNode<int>* root)
+{
+    if(root==NULL)
+    {
+        return true;
+    }
+
+    return (root->data > root->left->data)&&(root->data < root->left->data)&&isBST(root->left)&& isBST(root->right);
+}
+
+
 
 
 int main()
