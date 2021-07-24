@@ -1,5 +1,7 @@
 #include "binaryTree.h"
+#include<algorithm>
 #include<queue>
+
 binaryTreeNode<int>* takingInputLevelWise()
 {
     int rootData;
@@ -39,9 +41,10 @@ binaryTreeNode<int>* takingInputLevelWise()
             pendingNodes.push(rightChild);
         }    
     }
-return root;
-
+    return root;
 }
+
+
 void printTree(binaryTreeNode<int>* root)
 {
     if(root == NULL)
@@ -88,7 +91,7 @@ int heightofBST(binaryTreeNode<int>* root)
     return 1+max(heightofBST(root->left),heightofBST(root->right));
 }
 
-int diameterofBST(binaryTreeNode<int>* root)
+ int diameterofBST(binaryTreeNode<int>* root)
 {
     if(root==NULL)
     return 0;
@@ -99,10 +102,10 @@ int diameterofBST(binaryTreeNode<int>* root)
 
     return max(option1,option2,option3);
 
-}
+} 
 
 
-bool isBST(binaryTreeNode<int>* root)
+/* bool isBST(binaryTreeNode<int>* root)
 {
     if(root==NULL)
     {
@@ -110,14 +113,26 @@ bool isBST(binaryTreeNode<int>* root)
     }
 
     return (root->data > root->left->data)&&(root->data < root->left->data)&&isBST(root->left)&& isBST(root->right);
+} */
+
+binaryTreeNode<int>* buildTree(int *arr ,int si,int ei)
+{      
+    if (si>ei)
+    {
+        return NULL;
+    }
+    int rootData=arr[(ei)/2];
+    binaryTreeNode<int>* root= new binaryTreeNode<int>(rootData);
+    root->left = buildTree(arr,si,(ei/2)-1);
+    root->right = buildTree(arr,(ei/2)-1,ei);
+    return root;
+
 }
 
-
-
-
 int main()
-{
-    binaryTreeNode<int>* root = buildBST();
+{   
+    int arr[]={1,2,3,4,5,6,7};
+    binaryTreeNode<int>* root = buildTree(arr,0,6);
     printTree(root);
     return 0;
 }
