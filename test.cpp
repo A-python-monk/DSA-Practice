@@ -1,16 +1,14 @@
-#include <iostream>
-#include <deque>
+#include "BSTClass.h"
 using namespace std;
+
 int main()
 {
-    deque<int> dq;
-    int i;
-    dq.push_back(1);
-    dq.push_back(2);
-    dq.push_back(3);
-    dq.push_back(4);
-    for (int i = 0; i < dq.size(); i++)
-    {
-        cout << dq.at(i);
-    }
+     BST ans;
+    ans.insert(10);
+    ans.insert(5);
+    ans.insert(20);
+    ans.insert(7);
+    ans.insert(3);
+    ans.insert(15);
+    ans.printTree();
 }
